@@ -14,11 +14,10 @@ class Square extends React.Component {
 
 class Board extends React.Component {
   renderSquare(i) {
-    return <Square value={i}/>;
+    return <Square value = {this.props.values[i]} />;
   }
 
   render() {
-    const blength = 4;
     return (
       <div>
         <div className="board-row">
@@ -51,7 +50,13 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const len = 4;
+    const values = randomNumbers(len * len);
+
     return (
       <div className="game">
         <div className="game-board">
@@ -59,7 +64,9 @@ class Game extends React.Component {
             輸入數字:
             <input type="number" name="prompt" min="1" max="16"/>
           </form>
-          <Board />
+          <Board
+            values = {values}
+          />
         </div>
       </div>
     );
@@ -72,3 +79,13 @@ ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+
+function randomNumbers(n) {
+  var arr = [];
+  while(arr.length < n){
+      var r = Math.floor(Math.random() * n) + 1;
+      if(arr.indexOf(r) === -1) arr.push(r);
+  }
+  console.log(arr);
+  return arr;
+}

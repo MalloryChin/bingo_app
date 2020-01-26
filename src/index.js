@@ -86,7 +86,7 @@ class InputForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="userPrompt" onSubmit={this.handleSubmit}>
         <label>
           輸入數字:
           <input
@@ -98,6 +98,25 @@ class InputForm extends React.Component {
       </form>
     );
   };
+}
+
+class Overlay extends React.Component {
+  render() {
+    let overlayClass = "game-overlay";
+    if(this.props.isBingo) {
+      overlayClass = "game-overlay overlay-on";
+    }
+    return (
+      <div className={overlayClass}>
+        <div className="center-div">
+          <div id="victory-text">勝利！</div>
+          <button id="restart-btn" onClick={() => this.props.onClick()}>
+            重新開始
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
 
 class Game extends React.Component {
@@ -117,11 +136,21 @@ class Game extends React.Component {
     });
   }
 
+  restart() {
+    this.setState({
+      values: randomNumbers(area),
+      selectedValues: Array(area).fill(false),
+    });
+  }
+
   render() {
-    console.log(bingo(len, this.state.selectedValues));
     return (
       <div className="game">
-        <div className="game-board">
+        <Overlay
+          isBingo = {bingo(len, this.state.selectedValues)}
+          onClick = {() => this.restart()}
+        />
+        <div className="game-main">
           <InputForm
             values = {this.state.values}
             onClick = {i => this.handleClick(i)}

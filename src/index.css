@@ -32,6 +32,10 @@ form {
   width: 34px;
 }
 
+.selected_square {
+  background: #ccc;
+}
+
 .square:focus {
   outline: none;
 }

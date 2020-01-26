@@ -4,8 +4,12 @@ import './index.css';
 
 class Square extends React.Component {
   render() {
+    let className = "square";
+    if(this.props.selected) {
+      className += " selected_square";
+    }
     return (
-      <button className="square">
+      <button className={className} onClick={() => this.props.onClick()}>
         {this.props.value}
       </button>
     );
@@ -14,7 +18,11 @@ class Square extends React.Component {
 
 class Board extends React.Component {
   renderSquare(i) {
-    return <Square value = {this.props.values[i]} />;
+    return <Square
+      value = {this.props.values[i]}
+      selected = {this.props.selectedValues[i]}
+      onClick={() => this.props.onClick(i)}
+    />;
   }
 
   render() {
@@ -49,23 +57,46 @@ class Board extends React.Component {
   }
 }
 
+const len = 4;
+const area = len * len;
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      values: randomNumbers(area),
+      selectedValues: Array(area).fill(false),
+    }
   }
-  render() {
-    const len = 4;
-    const values = randomNumbers(len * len);
 
+  handleChange(event) {
+    console.log(event.target.value);
+  }
+
+  handleClick(i) {
+    const selectedValues = this.state.selectedValues.slice();
+    selectedValues[i] = true;
+    this.setState({
+      selectedValues: selectedValues,
+    });
+  }
+
+  render() {
+    console.log(bingo(len, this.state.selectedValues));
     return (
       <div className="game">
         <div className="game-board">
-          <form>
-            輸入數字:
-            <input type="number" name="prompt" min="1" max="16"/>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              輸入數字:
+              <input type="number" name="prompt" min="1" max="16" onChange={this.handleChange}/>
+            </label>
+            <input type="submit" value="Submit" />
           </form>
           <Board
-            values = {values}
+            values = {this.state.values}
+            selectedValues = {this.state.selectedValues}
+            onClick = {i => this.handleClick(i)}
           />
         </div>
       </div>
@@ -79,6 +110,33 @@ ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+
+function bingo(len, square) {
+  let lines = 0;
+
+  for (let i = 0; i < len; i++) {
+    let hline = true;
+    let vline = true;
+    for (let j = 0; j < len; j++) {
+      if(!square[i * len + j]) hline = false;
+      if(!square[i + j * len]) vline = false;
+    }
+    if(hline) lines++;
+    if(vline) lines++;
+  }
+
+  let ldiagonal = true;
+  let rdiagonal = true;
+  for (let i = 0; i < len; i++) {
+    if(!square[i * len + i]) ldiagonal = false;
+    if(!square[i * len + (len - i - 1)]) rdiagonal = false;
+  }
+  if(ldiagonal) lines++;
+  if(rdiagonal) lines++;
+
+  if(lines >= 3) return true;
+  else return false;
+}
 
 function randomNumbers(n) {
   var arr = [];

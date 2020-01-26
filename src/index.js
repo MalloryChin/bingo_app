@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+const len = 4;
+const area = len * len;
+
 class Square extends React.Component {
   render() {
     let className = "square";
@@ -57,8 +60,45 @@ class Board extends React.Component {
   }
 }
 
-const len = 4;
-const area = len * len;
+class InputForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue:'',
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  };
+
+  handleChange(event) {
+    this.setState({
+      inputValue: event.target.value,
+    });
+  }
+
+  handleSubmit(event) {
+    const inputValue = Number(this.state.inputValue);
+    const values = this.props.values;
+    const selectedIndex = values.indexOf(inputValue);
+    this.props.onClick(selectedIndex);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          輸入數字:
+          <input
+            type="number" name="inputNumber" min="1" max="16"
+            value={this.state.inputValue} onChange={this.handleChange}
+          />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  };
+}
 
 class Game extends React.Component {
   constructor(props) {
@@ -66,10 +106,7 @@ class Game extends React.Component {
     this.state = {
       values: randomNumbers(area),
       selectedValues: Array(area).fill(false),
-      inputValue:'',
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleClick(i) {
@@ -80,35 +117,15 @@ class Game extends React.Component {
     });
   }
 
-  handleChange(event) {
-    this.setState({
-      inputValue: event.target.value
-    });
-  }
-
-  handleSubmit(event) {
-    const inputValue = Number(this.state.inputValue);
-    const values = this.state.values;
-    const selectedIndex = values.indexOf(inputValue);
-    this.handleClick(selectedIndex);
-    event.preventDefault();
-  }
-
   render() {
     console.log(bingo(len, this.state.selectedValues));
     return (
       <div className="game">
         <div className="game-board">
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              輸入數字:
-              <input
-                type="number" name="inputNumber" min="1" max="16"
-                value={this.state.inputValue} onChange={this.handleChange}
-              />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
+          <InputForm
+            values = {this.state.values}
+            onClick = {i => this.handleClick(i)}
+          />
           <Board
             values = {this.state.values}
             selectedValues = {this.state.selectedValues}

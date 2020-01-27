@@ -4,6 +4,7 @@ import './index.css';
 
 const len = 4;
 const area = len * len;
+const OverlayTheme = React.createContext();
 
 class Square extends React.Component {
   render() {
@@ -101,9 +102,11 @@ class InputForm extends React.Component {
 }
 
 class Overlay extends React.Component {
+  static contextType = OverlayTheme;
   render() {
     let overlayClass = "game-overlay";
-    if(this.props.isBingo) {
+    console.log(this.context);
+    if(this.context) {
       overlayClass = "game-overlay overlay-on";
     }
     return (
@@ -146,10 +149,11 @@ class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <Overlay
-          isBingo = {bingo(len, this.state.selectedValues)}
-          onClick = {() => this.restart()}
-        />
+        <OverlayTheme.Provider value={bingo(len, this.state.selectedValues)}>
+          <Overlay
+            onClick = {() => this.restart()}
+          />
+        </OverlayTheme.Provider>
         <div className="game-main">
           <InputForm
             values = {this.state.values}

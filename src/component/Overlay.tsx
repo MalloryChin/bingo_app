@@ -10,7 +10,7 @@ class Overlay extends React.Component<OverlayProps> {
   static contextType = OverlayTheme;
   render() {
     let overlayClass = "game-overlay";
-    console.log(this.context);
+    /*console.log(this.context);*/
     if(this.context) {
       overlayClass = "game-overlay overlay-on";
     }

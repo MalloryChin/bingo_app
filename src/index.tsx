@@ -5,7 +5,7 @@ import Game from './component/Game';
 
 ReactDOM.render(
   <Game
-    len = {4}
+    size = {4}
   />,
   document.getElementById('root')
 );

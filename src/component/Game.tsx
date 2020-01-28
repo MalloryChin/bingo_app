@@ -5,7 +5,7 @@ import Board from './Board';
 import InputForm from './InputForm';
 
 interface GameProps {
-  len: number;
+  size: number;
 }
 
 interface GameState {
@@ -14,14 +14,14 @@ interface GameState {
 }
 
 class Game extends React.Component<GameProps, GameState> {
-  area: number;
+  boardSize: number;
 
   constructor(props: GameProps) {
     super(props);
-    this.area = this.props.len * this.props.len;
+    this.boardSize = this.props.size * this.props.size;
     this.state = {
-      values: randomNumbers(this.area),
-      selectedValues: Array(this.area).fill(false),
+      values: randomNumbers(this.boardSize),
+      selectedValues: Array(this.boardSize).fill(false),
     };
   }
 
@@ -35,15 +35,15 @@ class Game extends React.Component<GameProps, GameState> {
 
   restart() {
     this.setState({
-      values: randomNumbers(this.area),
-      selectedValues: Array(this.area).fill(false),
+      values: randomNumbers(this.boardSize),
+      selectedValues: Array(this.boardSize).fill(false),
     });
   }
 
   render() {
     return (
       <div className="game">
-        <OverlayTheme.Provider value={bingo(this.props.len, this.state.selectedValues)}>
+        <OverlayTheme.Provider value={bingo(this.props.size, this.state.selectedValues)}>
           <Overlay
             onClick = {() => this.restart()}
           />
@@ -54,6 +54,7 @@ class Game extends React.Component<GameProps, GameState> {
             onClick = {(i: number) => this.handleClick(i)}
           />
           <Board
+            size = {this.props.size}
             values = {this.state.values}
             selectedValues = {this.state.selectedValues}
             onClick = {(i: number) => this.handleClick(i)}
@@ -67,17 +68,17 @@ class Game extends React.Component<GameProps, GameState> {
 export default Game;
 
 
-// ===============Helper===================
+// ===============Helpers===================
 
-function bingo(len: number, square: boolean[]) {
+function bingo(size: number, selectedSquare: boolean[]) {
   let lines = 0;
 
-  for (let i = 0; i < len; i++) {
+  for (let i = 0; i < size; i++) {
     let hline = true;
     let vline = true;
-    for (let j = 0; j < len; j++) {
-      if(!square[i * len + j]) hline = false;
-      if(!square[i + j * len]) vline = false;
+    for (let j = 0; j < size; j++) {
+      if(!selectedSquare[i * size + j]) hline = false;
+      if(!selectedSquare[i + j * size]) vline = false;
     }
     if(hline) lines++;
     if(vline) lines++;
@@ -85,9 +86,9 @@ function bingo(len: number, square: boolean[]) {
 
   let ldiagonal = true;
   let rdiagonal = true;
-  for (let i = 0; i < len; i++) {
-    if(!square[i * len + i]) ldiagonal = false;
-    if(!square[i * len + (len - i - 1)]) rdiagonal = false;
+  for (let i = 0; i < size; i++) {
+    if(!selectedSquare[i * size + i]) ldiagonal = false;
+    if(!selectedSquare[i * size + (size - i - 1)]) rdiagonal = false;
   }
   if(ldiagonal) lines++;
   if(rdiagonal) lines++;
@@ -96,12 +97,13 @@ function bingo(len: number, square: boolean[]) {
   else return false;
 }
 
+// return an array with n unique random numbers
 function randomNumbers(n: number) {
   var arr = [];
   while(arr.length < n){
       var r = Math.floor(Math.random() * n) + 1;
       if(arr.indexOf(r) === -1) arr.push(r);
   }
-  console.log(arr);
+  /*console.log(arr);*/
   return arr;
 }

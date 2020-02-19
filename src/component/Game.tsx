@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+//npm local storage ref: https://github.com/bevacqua/local-storage
+import React, {useState, useEffect} from 'react';
 import Overlay from './Overlay';
 import { OverlayContext } from './Overlay';
 import Board from './Board';
@@ -7,13 +8,34 @@ import InputForm from './InputForm';
 interface GameProps {
 	size: number;
 }
-
+const ls = require('local-storage');
 function Game(props: GameProps) {
+
 	const boardSize = props.size * props.size;
-	const [values, setValues] = useState(randomNumbers(boardSize));
-	const [selectedValues, setSelectedValues] = useState(
-		Array(boardSize).fill(false),
-	);
+	// const [map, setmap] = useState(randomNumbers(boardSize));
+	const [map, setmap] = useState(() => {
+		const localMap = ls('board_numbers');
+		return (
+			localMap ? localMap : randomNumbers(boardSize)
+		);
+	});
+	// const [selectedValues, setSelectedValues] = useState(
+	// 	Array(boardSize).fill(false),
+	// );
+	const [selectedValues, setSelectedValues] = useState(() => {
+		const localSelected = ls('playing_status');
+		return (
+			localSelected ? localSelected : Array(boardSize).fill(false)
+		);
+	});
+
+	useEffect(() => {
+		ls('board_numbers', map);
+	}, [map]);
+
+	useEffect(() => {
+		ls('playing_status', selectedValues);
+	},[selectedValues]);
 
 	function handleClick(i: number) {
 		const newSelectedValues = selectedValues.slice();
@@ -22,7 +44,7 @@ function Game(props: GameProps) {
 	}
 
 	function restart() {
-		setValues(randomNumbers(boardSize));
+		setmap(randomNumbers(boardSize));
 		setSelectedValues(Array(boardSize).fill(false));
 	}
 	return (
@@ -31,10 +53,10 @@ function Game(props: GameProps) {
 				<Overlay onClick={() => restart()} />
 			</OverlayContext.Provider>
 			<div className="game-main">
-				<InputForm values={values} onClick={(i: number) => handleClick(i)} />
+				<InputForm values={map} onClick={(i: number) => handleClick(i)} />
 				<Board
 					size={props.size}
-					values={values}
+					values={map}
 					selectedValues={selectedValues}
 					onClick={(i: number) => handleClick(i)}
 				/>

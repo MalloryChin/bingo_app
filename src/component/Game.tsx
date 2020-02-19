@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Overlay from './Overlay';
 import { OverlayTheme } from './Overlay';
 import Board from './Board';
@@ -10,8 +10,8 @@ interface GameProps {
 
 function Game(props: GameProps) {
 	const boardSize = props.size * props.size;
-	const [values, setValues] = React.useState(randomNumbers(boardSize));
-	const [selectedValues, setSelectedValues] = React.useState(
+	const [values, setValues] = useState(randomNumbers(boardSize));
+	const [selectedValues, setSelectedValues] = useState(
 		Array(boardSize).fill(false),
 	);
 

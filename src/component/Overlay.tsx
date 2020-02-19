@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
 
 export const OverlayTheme = React.createContext(false);
 
@@ -7,7 +7,7 @@ interface OverlayProps {
 }
 
 function Overlay(props: OverlayProps) {
-	const context = React.useContext(OverlayTheme);
+	const context = useContext(OverlayTheme);
 
 	let overlayClass = 'game-overlay';
 	if(context) {

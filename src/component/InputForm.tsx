@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 
 interface InputFormProps {
 	values: number[];
@@ -6,7 +6,7 @@ interface InputFormProps {
 }
 
 function InputForm(props: InputFormProps) {
-	const [inputValue, setValue] = React.useState('');
+	const [inputValue, setValue] = useState('');
 
 	function handleSubmit(event: React.FormEvent) {
 		const values = props.values;

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Overlay from './Overlay';
-import { OverlayTheme } from './Overlay';
+import { OverlayContext } from './Overlay';
 import Board from './Board';
 import InputForm from './InputForm';
 
@@ -27,9 +27,9 @@ function Game(props: GameProps) {
 	}
 	return (
 		<div className="game">
-			<OverlayTheme.Provider value={bingo(props.size, selectedValues)}>
+			<OverlayContext.Provider value={bingo(props.size, selectedValues)}>
 				<Overlay onClick={() => restart()} />
-			</OverlayTheme.Provider>
+			</OverlayContext.Provider>
 			<div className="game-main">
 				<InputForm values={values} onClick={(i: number) => handleClick(i)} />
 				<Board

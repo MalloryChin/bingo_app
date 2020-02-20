@@ -12,6 +12,7 @@ const ls = require('local-storage');
 function Game(props: GameProps) {
 
 	const boardSize = props.size * props.size;
+	// 給初始值前先檢查有沒有local storage
 	// const [map, setmap] = useState(randomNumbers(boardSize));
 	const [map, setmap] = useState(() => {
 		const localMap = ls('board_numbers');

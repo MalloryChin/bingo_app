@@ -39,7 +39,6 @@ function Board(props: BoardProps) {
 		}
 		return board;
 	}
-	console.log('123');
 	return <div>{createBoard()}</div>;
 }
 

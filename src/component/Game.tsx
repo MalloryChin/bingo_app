@@ -12,13 +12,14 @@ const ls = require('local-storage');
 function Game(props: GameProps) {
 
 	const boardSize = props.size * props.size;
-	// const [map, setmap] = useState(randomNumbers(boardSize));
-	const [map, setmap] = useState(() => {
-		const localMap = ls('board_numbers');
-		return (
-			localMap ? localMap : randomNumbers(boardSize)
-		);
-	});
+	const [map, setmap] = useState(randomNumbers(boardSize));
+	// const [map, setmap] = useState(() => {
+	// 	const localMap = ls('board_numbers');
+	// 	return (
+	// 		localMap ? localMap : randomNumbers(boardSize)
+	// 	);
+	// });
+
 	// const [selectedValues, setSelectedValues] = useState(
 	// 	Array(boardSize).fill(false),
 	// );
@@ -30,8 +31,9 @@ function Game(props: GameProps) {
 	});
 
 	useEffect(() => {
-		ls('board_numbers', map);
-	}, [map]);
+		const localMap = ls('board_numbers');
+    	localMap ? setmap(localMap) : ls('board_numbers', map);
+	}, []);
 
 	useEffect(() => {
 		ls('playing_status', selectedValues);
@@ -44,7 +46,9 @@ function Game(props: GameProps) {
 	}
 
 	function restart() {
-		setmap(randomNumbers(boardSize));
+		const newMap = randomNumbers(boardSize);
+		setmap(newMap);
+		ls('board_numbers', newMap);
 		setSelectedValues(Array(boardSize).fill(false));
 	}
 	return (

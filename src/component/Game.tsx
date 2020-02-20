@@ -12,24 +12,14 @@ const ls = require('local-storage');
 function Game(props: GameProps) {
 
 	const boardSize = props.size * props.size;
+	//initial value在創建時就assign了
 	const [map, setmap] = useState(randomNumbers(boardSize));
-	// const [map, setmap] = useState(() => {
-	// 	const localMap = ls('board_numbers');
-	// 	return (
-	// 		localMap ? localMap : randomNumbers(boardSize)
-	// 	);
-	// });
+	const [selectedValues, setSelectedValues] = useState(
+		Array(boardSize).fill(false),
+	);
 
-	// const [selectedValues, setSelectedValues] = useState(
-	// 	Array(boardSize).fill(false),
-	// );
-	const [selectedValues, setSelectedValues] = useState(() => {
-		const localSelected = ls('playing_status');
-		return (
-			localSelected ? localSelected : Array(boardSize).fill(false)
-		);
-	});
-
+	// 事後處理local storage
+	// didmount()
 	useEffect(() => {
 		const localMap = ls('board_numbers');
 		if (localMap) setmap(localMap);
@@ -37,13 +27,16 @@ function Game(props: GameProps) {
 	}, []);
 
 	useEffect(() => {
-		ls('playing_status', selectedValues);
-	}, [selectedValues]);
+		const localSelected = ls('playing_status');
+		if(localSelected) setSelectedValues(localSelected);
+		else ls('playing_status', selectedValues);
+	}, []);
 
 	function handleClick(i: number) {
 		const newSelectedValues = selectedValues.slice();
 		newSelectedValues[i] = true;
 		setSelectedValues(newSelectedValues);
+		ls('playing_status', newSelectedValues);
 	}
 
 	function restart() {

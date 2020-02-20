@@ -1,5 +1,5 @@
 //npm local storage ref: https://github.com/bevacqua/local-storage
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Overlay from './Overlay';
 import { OverlayContext } from './Overlay';
 import Board from './Board';
@@ -32,12 +32,13 @@ function Game(props: GameProps) {
 
 	useEffect(() => {
 		const localMap = ls('board_numbers');
-    	localMap ? setmap(localMap) : ls('board_numbers', map);
+		if (localMap) setmap(localMap);
+		else ls('board_numbers', map);
 	}, []);
 
 	useEffect(() => {
 		ls('playing_status', selectedValues);
-	},[selectedValues]);
+	}, [selectedValues]);
 
 	function handleClick(i: number) {
 		const newSelectedValues = selectedValues.slice();

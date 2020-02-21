@@ -5,7 +5,6 @@ function MyBlueprint() {
 	const [isOpen, setIsOpen] = useState(false);
 
 	function toggleOverlay() {
-		//TODO
 		setIsOpen(!isOpen);
 	}
 	return (

@@ -11,7 +11,7 @@ ReactDOM.render(
 			size = {4}
 		/>
 		{/* <Test /> */}
-		<MyBlueprint />
+		{/* <MyBlueprint /> */}
 	</div>,
 	document.getElementById('root'),
 );

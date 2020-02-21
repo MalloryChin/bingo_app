@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import { Button, Overlay } from '@blueprintjs/core';
 
 export const OverlayContext = React.createContext(false);
 
@@ -6,25 +7,18 @@ interface OverlayProps {
 	onClick: () => void;
 }
 
-function Overlay(props: OverlayProps) {
+function BPOverlay(props: OverlayProps) {
 	const context = useContext(OverlayContext);
-
-	let overlayClass = 'game-overlay';
-	if(context) {
-		overlayClass = 'game-overlay overlay-on';
-	}
-
-
 	return (
-		<div className={overlayClass}>
-			<div className="center-div">
-				<div id="victory-text">勝利！</div>
-				<button id="restart-btn" onClick={() => props.onClick()}>
-					重新開始
-				</button>
+		<Overlay isOpen={context}>
+			<div className="overlay-box">
+				<div className="center-div">
+					<div id="victory-text">勝利！</div>
+					<Button id="restart-btn" text="重新開始" onClick={() => props.onClick()} />
+				</div>
 			</div>
-		</div>
+		</Overlay>
 	);
 }
 
-export default Overlay;
+export default BPOverlay;

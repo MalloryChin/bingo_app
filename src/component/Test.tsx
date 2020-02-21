@@ -4,6 +4,7 @@ function Test() {
 	const refContainer = useRef<string>('123');
 	const [value, setValue] = useState(123);
 	const onButtonClick = () => {
+		// content change won't cause re-render
 		refContainer.current = 'new';
 	};
 	return (
@@ -15,8 +16,9 @@ function Test() {
 		</div>
 	);
 }
+export default Test;
 
-function TextInputWithFocusButton() {
+export function TextInputWithFocusButton() {
 	const inputEl = useRef<HTMLInputElement>(null);
 	const onButtonClick = () => {
 		if(!inputEl.current)return ;
@@ -30,4 +32,4 @@ function TextInputWithFocusButton() {
 	);
 }
 
-export default Test;
+

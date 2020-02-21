@@ -1,6 +1,6 @@
 //npm local storage ref: https://github.com/bevacqua/local-storage
 import React, {useState, useEffect} from 'react';
-import Overlay from './Overlay';
+import BPOverlay from './Overlay';
 import { OverlayContext } from './Overlay';
 import Board from './Board';
 import InputForm from './InputForm';
@@ -13,16 +13,13 @@ function Game(props: GameProps) {
 
 	const boardSize = props.size * props.size;
 	// 給初始值前先檢查有沒有local storage
-	// const [map, setmap] = useState(randomNumbers(boardSize));
 	const [map, setmap] = useState(() => {
 		const localMap = ls('board_numbers');
 		return (
 			localMap ? localMap : randomNumbers(boardSize)
 		);
 	});
-	// const [selectedValues, setSelectedValues] = useState(
-	// 	Array(boardSize).fill(false),
-	// );
+
 	const [selectedValues, setSelectedValues] = useState(() => {
 		const localSelected = ls('playing_status');
 		return (
@@ -51,7 +48,7 @@ function Game(props: GameProps) {
 	return (
 		<div className="game">
 			<OverlayContext.Provider value={bingo(props.size, selectedValues)}>
-				<Overlay onClick={() => restart()} />
+				<BPOverlay onClick={() => restart()} />
 			</OverlayContext.Provider>
 			<div className="game-main">
 				<InputForm values={map} onClick={(i: number) => handleClick(i)} />

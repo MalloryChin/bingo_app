@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {NumericInput} from '@blueprintjs/core';
 
 interface InputFormProps {
 	values: number[];
@@ -6,29 +7,24 @@ interface InputFormProps {
 }
 
 function InputForm(props: InputFormProps) {
-	const [inputValue, setValue] = useState('');
+	const [inputValue, setValue] = useState();
 
 	function handleSubmit(event: React.FormEvent) {
 		const values = props.values;
-		const selectedIndex = values.indexOf(Number(inputValue));
+		const selectedIndex = values.indexOf(inputValue);
 		props.onClick(selectedIndex);
 		event.preventDefault();
 	}
 
 	return (
 		<form className="userPrompt" onSubmit={handleSubmit}>
-			<label>
-				輸入數字:
-				<input
-					type="number"
-					name="inputNumber"
-					min="1"
-					max="16"
-					value={inputValue}
-					onChange={e => setValue(e.target.value)}
-				/>
-			</label>
-			<input type="submit" value="Submit" />
+			<NumericInput
+				placeholder='enter a number'
+				min={1}
+				max={16}
+				value={inputValue}
+				onValueChange={v => setValue(v)}
+			/>
 		</form>
 	);
 }

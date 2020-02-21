@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Button } from '@blueprintjs/core';
 
 interface SquareProps {
 	value: number;
@@ -9,12 +10,12 @@ interface SquareProps {
 function Square(props: SquareProps) {
 	let className = 'square';
 	if (props.selected) {
-		className += ' selected_square';
+		className += ' selected_square .bp3-intent-danger';
 	}
 	return (
-		<button className={className} onClick={() => props.onClick()}>
+		<Button className={className} onClick={() => props.onClick()}>
 			{props.value}
-		</button>
+		</Button>
 	);
 }
 

@@ -37,7 +37,7 @@ function Game(props: GameProps) {
 
 	function handleClick(i: number) {
 		const newSelectedValues = selectedValues.slice();
-		newSelectedValues[i] = true;
+		newSelectedValues[i] = !newSelectedValues[i];
 		setSelectedValues(newSelectedValues);
 	}
 

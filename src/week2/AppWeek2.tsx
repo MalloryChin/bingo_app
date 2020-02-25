@@ -5,9 +5,9 @@ import {formContext} from './BPtable';
 
 function AppWeek2() {
 	const [record, setRecord] = useState<any[]>([]);
-	function addRecord(name: string) {
+	function addRecord(data: any[]) {
 		const myrecord = record.slice();
-		myrecord.push(name);
+		myrecord.push(data);
 		setRecord(myrecord);
 	}
 	return (

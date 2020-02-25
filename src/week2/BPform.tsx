@@ -1,24 +1,43 @@
 import React, {useState} from 'react';
 import { Button, FormGroup, InputGroup} from '@blueprintjs/core';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
+import moment from 'moment';
 
 interface BPformProps {
 	onClick: (i: any) => void;
 }
 
 function BPform(Props: BPformProps){
+	const [name, setName] = useState('');
+	const [phone, setPhone] = useState('');
+	const [email, setEmail] = useState('');
+	const [bday,setBday] = useState<Date|undefined>(undefined); //use Date type
+
 	const jsDateFormatter: IDateFormatProps = {
 		formatDate: date => date.toLocaleDateString(),
 		parseDate: str => new Date(str),
 		placeholder: 'M/D/YYYY',
 	};
-	const [name, setName] = useState('');
+
+	// function getMomentFormatter(format: string): IDateFormatProps {
+	// 	// note that locale argument comes from locale prop and may be undefined
+	// 	return {
+	// 		formatDate: (date, locale) => moment(date).locale(locale).format(format),
+	// 		parseDate: (str, locale) => moment(str, format).locale(locale).toDate(),
+	// 		placeholder: format,
+	// 	};
+	// };
 
 	function Submit(){
-		if(name) {
-			Props.onClick(name);
-		};
-		setName('');
+		if(name && phone && email && bday) {
+			Props.onClick([name, phone, email, bday.toLocaleDateString()]);
+			setName('');
+			setPhone('');
+			setEmail('');
+			setBday(undefined);
+		} else {
+			alert('有欄位沒填');
+		}
 	}
 
 	return (
@@ -31,7 +50,8 @@ function BPform(Props: BPformProps){
 					leftIcon="person"
 					placeholder="輸入姓名"
 					fill={false}
-					onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+					onChange = {(e: React.ChangeEvent<HTMLInputElement>) =>
+						setName(e.target.value)}
 					value = {name}
 				/>
 			</FormGroup>
@@ -40,10 +60,15 @@ function BPform(Props: BPformProps){
 				labelFor="number-input"
 			>
 				<InputGroup
-					leftIcon="mobile-phone"
-					placeholder="輸入手機號碼"
-					fill={false}
-					type="number"
+					leftIcon = "mobile-phone"
+					placeholder = "輸入手機號碼"
+					fill = {false}
+					onChange = {
+						(e: React.ChangeEvent<HTMLInputElement>) =>
+							setPhone(e.target.value)
+					}
+					value = {phone}
+					type = "number"
 				/>
 			</FormGroup>
 			<FormGroup
@@ -54,6 +79,11 @@ function BPform(Props: BPformProps){
 					leftIcon="envelope"
 					placeholder="輸入email"
 					fill={false}
+					onChange = {
+						(e: React.ChangeEvent<HTMLInputElement>) =>
+							setEmail(e.target.value)
+					}
+					value = {email}
 					type="email"
 				/>
 			</FormGroup>
@@ -64,6 +94,10 @@ function BPform(Props: BPformProps){
 				<DateInput
 					fill={true}
 					{...jsDateFormatter}
+					value={bday}
+					onChange = {
+						(date) => setBday(date)
+					}
 				/>
 			</FormGroup>
 			<Button intent="primary" text="送出" onClick={Submit}/>

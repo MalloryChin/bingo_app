@@ -6,14 +6,17 @@ export const formContext = React.createContext<any[]>([]);
 function BPtable() {
 	const context = useContext(formContext);
 
-	const cellRenderer = (rowIndex: number) => {
-		return <Cell>{context[rowIndex]}</Cell>;
+	const cellRenderer = (rowIndex: number, colIndex: number) => {
+		return <Cell>{context[rowIndex][colIndex]}</Cell>;
 	};
 
 	const numRows = context.length;
 	return (
 		<Table numRows={numRows}>
-			<Column name="name" cellRenderer={cellRenderer} />
+			<Column name="姓名" cellRenderer={cellRenderer} />
+			<Column name="手機" cellRenderer={cellRenderer} />
+			<Column name="email" cellRenderer={cellRenderer} />
+			<Column name="生日" cellRenderer={cellRenderer} />
 		</Table>
 	);
 }

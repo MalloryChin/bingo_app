@@ -4,7 +4,7 @@ import { formContext } from './AppWeek2';
 import { Button} from '@blueprintjs/core';
 
 interface BPtableProps {
-	onClick: (i: any) => void;
+	onClick: (i: number) => void;
 }
 
 function BPtable(Props: BPtableProps) {
@@ -18,7 +18,9 @@ function BPtable(Props: BPtableProps) {
 	const deleteBtnRenderer = (rowIndex: number) => {
 		return (
 			<Cell>
-				<Button icon="delete" onClick={() => Props.onClick(rowIndex)}/>
+				<>
+					<Button icon="delete" onClick={() => Props.onClick(rowIndex)}/>
+				</>
 			</Cell>
 		);
 	};

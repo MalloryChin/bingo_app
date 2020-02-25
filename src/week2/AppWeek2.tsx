@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import BPform from './BPform';
 import BPtable from './BPtable';
 
-export const formContext = React.createContext<any[]>([]);
+export const formContext = React.createContext<string[][]>([]);
 
 function AppWeek2() {
-	const [record, setRecord] = useState<any[]>([]);
-	function addRecord(data: any[]) {
+	const [record, setRecord] = useState<string[][]>(
+		[['default','0911111111','email@example.com','01/01/1999']],
+	);
+	function addRecord(data: string[]) {
 		const myrecord = record.slice();
 		myrecord.push(data);
 		setRecord(myrecord);

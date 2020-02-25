@@ -1,18 +1,18 @@
-import React, {useState} from 'react';
-import { Button, FormGroup, InputGroup} from '@blueprintjs/core';
+import React, { useState } from 'react';
+import { Button, FormGroup, InputGroup } from '@blueprintjs/core';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
 // eslint-disable-next-line no-warning-comments
-//TODO: import moment from 'moment';
+// TODO: import moment from 'moment';
 
 interface BPformProps {
-	onClick: (i: any) => void;
+	onClick: (i: string[]) => void;
 }
 
-function BPform(Props: BPformProps){
+function BPform(Props: BPformProps) {
 	const [name, setName] = useState('');
 	const [phone, setPhone] = useState('');
 	const [email, setEmail] = useState('');
-	const [bday,setBday] = useState<Date|undefined>(undefined); //use Date type
+	const [bday, setBday] = useState<Date | undefined>(undefined); //use Date type
 
 	const jsDateFormatter: IDateFormatProps = {
 		formatDate: date => date.toLocaleDateString(),
@@ -20,9 +20,10 @@ function BPform(Props: BPformProps){
 		placeholder: 'M/D/YYYY',
 	};
 
-	function Submit(){
-		if(name && phone && email && bday) {
+	function Submit() {
+		if (name && phone && email && bday) {
 			Props.onClick([name, phone, email, bday.toLocaleDateString()]);
+			//按下送出按鈕後清空欄位資料
 			setName('');
 			setPhone('');
 			setEmail('');
@@ -37,64 +38,66 @@ function BPform(Props: BPformProps){
 			<FormGroup
 				label="姓名"
 				labelFor="text-input"
+				inline
 			>
 				<InputGroup
 					leftIcon="person"
 					placeholder="輸入姓名"
 					fill={false}
-					onChange = {(e: React.ChangeEvent<HTMLInputElement>) =>
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						setName(e.target.value)}
-					value = {name}
+					value={name}
 				/>
 			</FormGroup>
 			<FormGroup
 				label="手機"
 				labelFor="number-input"
+				inline
 			>
 				<InputGroup
-					leftIcon = "mobile-phone"
-					placeholder = "輸入手機號碼"
-					fill = {false}
-					onChange = {
+					leftIcon="mobile-phone"
+					placeholder="輸入手機號碼"
+					fill={false}
+					onChange={
 						(e: React.ChangeEvent<HTMLInputElement>) =>
 							setPhone(e.target.value)
 					}
-					value = {phone}
-					type = "number"
+					value={phone}
+					type="number"
 				/>
 			</FormGroup>
 			<FormGroup
 				label="email"
 				labelFor="email-input"
+				inline
 			>
 				<InputGroup
 					leftIcon="envelope"
 					placeholder="輸入email"
-					fill={false}
-					onChange = {
+					onChange={
 						(e: React.ChangeEvent<HTMLInputElement>) =>
 							setEmail(e.target.value)
 					}
-					value = {email}
+					value={email}
 					type="email"
 				/>
 			</FormGroup>
 			<FormGroup
 				label="生日"
 				labelFor="date-input"
+				inline
 			>
 				<DateInput
-					fill={true}
-					minDate = {new Date(1900, 1, 1)}
-					maxDate = {new Date(Date.now())}
+					minDate={new Date(1900, 1, 1)}
+					maxDate={new Date(Date.now())}
 					value={bday}
-					onChange = {
+					onChange={
 						(date) => setBday(date)
 					}
 					{...jsDateFormatter}
 				/>
 			</FormGroup>
-			<Button intent="primary" text="送出" onClick={Submit}/>
+			<Button intent="primary" text="送出" onClick={Submit} />
 		</form>
 	);
 }

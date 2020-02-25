@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { Cell, Column, Table } from '@blueprintjs/table';
-
-export const formContext = React.createContext<any[]>([]);
+import {formContext} from './AppWeek2';
 
 function BPtable() {
 	const context = useContext(formContext);

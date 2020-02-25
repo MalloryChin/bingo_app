@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import BPform from './BPform';
 import BPtable from './BPtable';
-import {formContext} from './BPtable';
+
+export const formContext = React.createContext<any[]>([]);
 
 function AppWeek2() {
 	const [record, setRecord] = useState<any[]>([]);

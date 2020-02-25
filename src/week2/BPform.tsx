@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import { Button, FormGroup, InputGroup} from '@blueprintjs/core';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
-import moment from 'moment';
+// eslint-disable-next-line no-warning-comments
+//TODO: import moment from 'moment';
 
 interface BPformProps {
 	onClick: (i: any) => void;
@@ -18,15 +19,6 @@ function BPform(Props: BPformProps){
 		parseDate: str => new Date(str),
 		placeholder: 'M/D/YYYY',
 	};
-
-	// function getMomentFormatter(format: string): IDateFormatProps {
-	// 	// note that locale argument comes from locale prop and may be undefined
-	// 	return {
-	// 		formatDate: (date, locale) => moment(date).locale(locale).format(format),
-	// 		parseDate: (str, locale) => moment(str, format).locale(locale).toDate(),
-	// 		placeholder: format,
-	// 	};
-	// };
 
 	function Submit(){
 		if(name && phone && email && bday) {
@@ -93,11 +85,13 @@ function BPform(Props: BPformProps){
 			>
 				<DateInput
 					fill={true}
-					{...jsDateFormatter}
+					minDate = {new Date(1900, 1, 1)}
+					maxDate = {new Date(Date.now())}
 					value={bday}
 					onChange = {
 						(date) => setBday(date)
 					}
+					{...jsDateFormatter}
 				/>
 			</FormGroup>
 			<Button intent="primary" text="送出" onClick={Submit}/>

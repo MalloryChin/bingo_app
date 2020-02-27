@@ -4591,6 +4591,7 @@ const PostLink = props => __jsx("li", {
   __self: undefined
 }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
   href: "/p/[id]",
+  as: `/p/${props.id}`,
   __source: {
     fileName: _jsxFileName,
     lineNumber: 6

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import BPform from './BPform';
-import BPtable from './BPtable';
+import BPForm from './BPform';
+import BPTable from './BPtable';
 
 export interface User {
 	name: string;
@@ -8,8 +8,24 @@ export interface User {
 	email: string;
 	birthday: string;
 }
+export const cUserNameConvention: Record<keyof User, string> = {
+	name: '姓名',
+	mobile: '手機',
+	email: 'email',
+	birthday: '生日',
+};
 
-export const formContext = React.createContext<User[]>([]);
+interface AppContext {
+	records: User[];
+	addUser: (data: User) => void;
+	removeUser: (i: number) => void;
+}
+
+export const FormContext = React.createContext<AppContext>({
+	records: [],
+	addUser: () => void 0,
+	removeUser: () => void 0,
+});
 
 function AppWeek2() {
 	const [records, setRecords] = useState<User[]>(
@@ -29,10 +45,10 @@ function AppWeek2() {
 	}
 	return (
 		<div>
-			<BPform onAddUser={(data) => addUser(data)} />
-			<formContext.Provider value={records}>
-				<BPtable onRemoveUser={(index) => removeUser(index)} />
-			</formContext.Provider>
+			<FormContext.Provider value={{ records, addUser, removeUser }}>
+				<BPForm />
+				<BPTable />
+			</FormContext.Provider>
 		</div>
 	);
 }

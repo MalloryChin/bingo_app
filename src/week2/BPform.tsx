@@ -5,11 +5,11 @@ import { User } from './AppWeek2';
 // eslint-disable-next-line no-warning-comments
 // TODO: import moment from 'moment';
 
-interface BPFormProps {
-	onAddUser: (i: User) => void;
-}
+// interface BPFormProps {
+// 	onAddUser: (i: User) => void;
+// }
 
-function BPform(Props: BPFormProps) {
+function BPform() {
 	const [name, setName] = useState<string>('');
 	const [mobile, setPhone] = useState<string>('');
 	const [email, setEmail] = useState('');

@@ -8414,7 +8414,7 @@ const PostLink = props => __jsx("li", {
   },
   __self: undefined
 }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
-  href: "/post?title=".concat(props.title),
+  href: "/p/[id]",
   __source: {
     fileName: _jsxFileName,
     lineNumber: 6
@@ -8426,7 +8426,7 @@ const PostLink = props => __jsx("li", {
     lineNumber: 7
   },
   __self: undefined
-}, props.title)));
+}, props.id)));
 
 function Blog() {
   return __jsx(_components_MyLayout__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -8441,28 +8441,28 @@ function Blog() {
       lineNumber: 15
     },
     __self: this
-  }, "MyBlog"), __jsx("ul", {
+  }, "My Blog"), __jsx("ul", {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 16
     },
     __self: this
   }, __jsx(PostLink, {
-    title: "Hello Next.js",
+    id: "hello-nextjs",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 17
     },
     __self: this
   }), __jsx(PostLink, {
-    title: "Learn Next.js is awesome",
+    id: "learn-nextjs",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 18
     },
     __self: this
   }), __jsx(PostLink, {
-    title: "Deploy apps with Zeit",
+    id: "deploy-nextjs",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 19

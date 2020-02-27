@@ -1,28 +1,34 @@
 import React, { useState } from 'react';
 import { Button, FormGroup, InputGroup } from '@blueprintjs/core';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
+import { User } from './AppWeek2';
 // eslint-disable-next-line no-warning-comments
 // TODO: import moment from 'moment';
 
-interface BPformProps {
-	onClick: (i: string[]) => void;
+interface BPFormProps {
+	onAddUser: (i: User) => void;
 }
 
-function BPform(Props: BPformProps) {
-	const [name, setName] = useState('');
-	const [phone, setPhone] = useState('');
+function BPform(Props: BPFormProps) {
+	const [name, setName] = useState<string>('');
+	const [mobile, setPhone] = useState<string>('');
 	const [email, setEmail] = useState('');
-	const [bday, setBday] = useState<Date | undefined>(undefined); //use Date type
+	const [bday, setBday] = useState<Date>(); //use Date type
 
 	const jsDateFormatter: IDateFormatProps = {
-		formatDate: date => date.toLocaleDateString(),
+		formatDate: date => date.toISOString(),
 		parseDate: str => new Date(str),
 		placeholder: 'M/D/YYYY',
 	};
 
 	function Submit() {
-		if (name && phone && email && bday) {
-			Props.onClick([name, phone, email, bday.toLocaleDateString()]);
+		if (name && mobile && email && bday) {
+			Props.onAddUser({
+				name,
+				mobile,
+				email,
+				birthday: bday.toLocaleDateString(),
+			});
 			//按下送出按鈕後清空欄位資料
 			setName('');
 			setPhone('');
@@ -58,11 +64,9 @@ function BPform(Props: BPformProps) {
 					leftIcon="mobile-phone"
 					placeholder="輸入手機號碼"
 					fill={false}
-					onChange={
-						(e: React.ChangeEvent<HTMLInputElement>) =>
-							setPhone(e.target.value)
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)
 					}
-					value={phone}
+					value={mobile}
 					type="number"
 				/>
 			</FormGroup>

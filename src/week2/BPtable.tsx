@@ -4,7 +4,10 @@ import { formContext } from './AppWeek2';
 import { Button} from '@blueprintjs/core';
 
 interface BPtableProps {
-	onClick: (i: number) => void;
+	/**
+	 * 移除使用者 by record 的 index
+	 */
+	onRemoveUser: (deleteIndex: number) => void;
 }
 
 function BPtable(Props: BPtableProps) {
@@ -19,7 +22,7 @@ function BPtable(Props: BPtableProps) {
 		return (
 			<Cell>
 				<>
-					<Button icon="delete" onClick={() => Props.onClick(rowIndex)}/>
+					<Button icon="delete" onClick={() => Props.onRemoveUser(rowIndex)}/>
 				</>
 			</Cell>
 		);

@@ -2,31 +2,36 @@ import React, { useState } from 'react';
 import BPform from './BPform';
 import BPtable from './BPtable';
 
-export const formContext = React.createContext<string[][]>([]);
+export interface User {
+	name: string;
+	mobile: string;
+	email: string;
+	birthday: string;
+}
+
+export const formContext = React.createContext<User[]>([]);
 
 function AppWeek2() {
-	const [record, setRecord] = useState<string[][]>(
-		[['default','0911111111','email@example.com','01/01/1999']],
+	const [records, setRecords] = useState<User[]>(
+		[{
+			name: 'default',
+			mobile: '0911111111',
+			email: 'email@example.com',
+			birthday: '01/01/1999',
+		}],
 	);
-	function addRecord(data: string[]) {
-		const myrecord = record.slice();
-		myrecord.push(data);
-		setRecord(myrecord);
-	}
-	function removeRecord(index: number) {
-		const myrecord = record.slice();
+	const addUser = (data: User) => setRecords([...records, data]);
+
+	function removeUser(index: number) {
+		const myrecord = records.slice();
 		myrecord.splice(index, 1);
-		setRecord(myrecord);
+		setRecords(myrecord);
 	}
 	return (
 		<div>
-			<BPform
-				onClick = {(data) => addRecord(data)}
-			/>
-			<formContext.Provider value={record}>
-				<BPtable
-					onClick = {(index) => removeRecord(index)}
-				/>
+			<BPform onAddUser={(data) => addUser(data)} />
+			<formContext.Provider value={records}>
+				<BPtable onRemoveUser={(index) => removeUser(index)} />
 			</formContext.Provider>
 		</div>
 	);

@@ -24,6 +24,7 @@ function AppWeek2() {
 			birthday: '01/01/1999',
 		}],
 	);
+	// .push會動到原本的陣列 [...records, data]回傳的是一個新的陣列
 	const addUser = (data: User) => setRecords([...records, data]);
 
 	function removeUser(index: number) {

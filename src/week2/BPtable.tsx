@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Cell, Column, Table, ColumnHeaderCell } from '@blueprintjs/table';
+import React, { useContext, useState } from 'react';
+import { Cell, Column, Table, ColumnHeaderCell, Utils } from '@blueprintjs/table';
 import { FormContext } from './AppWeek2';
 import { User, cUserNameConvention } from './interfaces';
 import { Button } from '@blueprintjs/core';
@@ -22,10 +22,11 @@ const cTableConvention: Record<TableCon, string> = {
 function BPtable() {
 	const context = useContext(FormContext);
 	const { records, removeUser } = context;
-	const tableKeys = Object.keys(cTableConvention) as TableCon[];
+	// let tableKeys = Object.keys(cTableConvention) as TableCon[];
+	const [tableKeys, setTableKeys] = useState(Object.keys(cTableConvention) as TableCon[]);
 	const cellRenderer = (rowIndex: number, colIndex: number) => {
 		const field = tableKeys[colIndex];
-		if(field === 'option') {
+		if (field === 'option') {
 			return (
 				<Cell>
 					{/* 因為 BLUEPRINT 會掛上奇怪的 props，所以要掛一個空的才不會有 error */}
@@ -37,7 +38,6 @@ function BPtable() {
 		}
 		return <Cell>{records[rowIndex][field]}</Cell>;
 	};
-
 
 	const columns = tableKeys.map((columnName) => {
 		return (
@@ -52,8 +52,21 @@ function BPtable() {
 		);
 	});
 
+	const handleColumnsReordered = (oldIndex: number, newIndex: number, length: number) => {
+		if (oldIndex === newIndex) {
+			return;
+		}
+		setTableKeys(Utils.reorderArray(tableKeys, oldIndex, newIndex, length));
+	};
+
 	return (
-		<Table numRows={records.length} defaultRowHeight={30} >
+		<Table
+			enableColumnReordering={true}
+			numRows={records.length}
+			defaultRowHeight={30}
+			enableColumnInteractionBar={true}
+			onColumnsReordered={handleColumnsReordered}
+		>
 			{columns}
 		</Table>
 	);

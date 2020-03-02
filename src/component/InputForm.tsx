@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {NumericInput} from '@blueprintjs/core';
+import React, { useState } from 'react';
+import { NumericInput } from '@blueprintjs/core';
 
 interface InputFormProps {
 	values: number[];

@@ -1,33 +1,54 @@
 import React, { useState } from 'react';
-import BPform from './BPform';
-import BPtable from './BPtable';
+import BPForm from './BPform';
+import BPTable from './BPtable';
 
-export const formContext = React.createContext<string[][]>([]);
+export interface User {
+	name: string;
+	mobile: string;
+	email: string;
+	birthday: string;
+}
+export const cUserNameConvention: Record<keyof User, string> = {
+	name: '姓名',
+	mobile: '手機',
+	email: 'email',
+	birthday: '生日',
+};
+
+interface AppContext {
+	records: User[];
+	addUser: (data: User) => void;
+	removeUser: (i: number) => void;
+}
+
+export const FormContext = React.createContext<AppContext>({
+	records: [],
+	addUser: () => void 0,
+	removeUser: () => void 0,
+});
 
 function AppWeek2() {
-	const [record, setRecord] = useState<string[][]>(
-		[['default','0911111111','email@example.com','01/01/1999']],
+	const [records, setRecords] = useState<User[]>(
+		[{
+			name: 'default',
+			mobile: '0911111111',
+			email: 'email@example.com',
+			birthday: '01/01/1999',
+		}],
 	);
-	function addRecord(data: string[]) {
-		const myrecord = record.slice();
-		myrecord.push(data);
-		setRecord(myrecord);
-	}
-	function removeRecord(index: number) {
-		const myrecord = record.slice();
+	const addUser = (data: User) => setRecords([...records, data]);
+
+	function removeUser(index: number) {
+		const myrecord = records.slice();
 		myrecord.splice(index, 1);
-		setRecord(myrecord);
+		setRecords(myrecord);
 	}
 	return (
 		<div>
-			<BPform
-				onClick = {(data) => addRecord(data)}
-			/>
-			<formContext.Provider value={record}>
-				<BPtable
-					onClick = {(index) => removeRecord(index)}
-				/>
-			</formContext.Provider>
+			<FormContext.Provider value={{ records, addUser, removeUser }}>
+				<BPForm />
+				<BPTable />
+			</FormContext.Provider>
 		</div>
 	);
 }

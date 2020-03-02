@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Cell, Column, Table, ColumnHeaderCell } from '@blueprintjs/table';
-import { FormContext, User, cUserNameConvention } from './AppWeek2';
+import { FormContext } from './AppWeek2';
+import { User, cUserNameConvention } from './interfaces';
 import { Button } from '@blueprintjs/core';
 
 // interface BPtableProps {
@@ -12,6 +13,7 @@ import { Button } from '@blueprintjs/core';
 
 type TableCon = keyof User | 'option';
 
+// 型別 Record<key, value>
 const cTableConvention: Record<TableCon, string> = {
 	...cUserNameConvention,
 	option: '選項',

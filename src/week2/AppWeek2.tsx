@@ -1,19 +1,7 @@
 import React, { useState } from 'react';
 import BPForm from './BPform';
 import BPTable from './BPtable';
-
-export interface User {
-	name: string;
-	mobile: string;
-	email: string;
-	birthday: string;
-}
-export const cUserNameConvention: Record<keyof User, string> = {
-	name: '姓名',
-	mobile: '手機',
-	email: 'email',
-	birthday: '生日',
-};
+import { User } from './interfaces';
 
 interface AppContext {
 	records: User[];

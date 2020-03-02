@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, FormGroup, InputGroup } from '@blueprintjs/core';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
-import { User } from './AppWeek2';
+import { FormContext } from './AppWeek2';
+import { User } from './interfaces';
 // eslint-disable-next-line no-warning-comments
 // TODO: import moment from 'moment';
 
@@ -10,6 +11,8 @@ import { User } from './AppWeek2';
 // }
 
 function BPform() {
+	const context = useContext(FormContext);
+	const { addUser } = context;
 	const [name, setName] = useState<string>('');
 	const [mobile, setPhone] = useState<string>('');
 	const [email, setEmail] = useState('');
@@ -23,7 +26,7 @@ function BPform() {
 
 	function Submit() {
 		if (name && mobile && email && bday) {
-			Props.onAddUser({
+			addUser({
 				name,
 				mobile,
 				email,

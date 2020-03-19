@@ -6,6 +6,7 @@ function Test() {
 	const onButtonClick = () => {
 		// content change won't cause re-render
 		// change in branch
+		// balalala
 		refContainer.current = 'new';
 	};
 	return (

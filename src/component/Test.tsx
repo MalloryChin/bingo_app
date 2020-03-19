@@ -7,6 +7,7 @@ function Test() {
 		// content change won't cause re-render
 		// change in branch
 		// balalala
+		// again
 		refContainer.current = 'new';
 	};
 	return (

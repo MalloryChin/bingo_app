@@ -5,6 +5,7 @@ function Test() {
 	const [value, setValue] = useState(123);
 	const onButtonClick = () => {
 		// content change won't cause re-render
+		// change in branch
 		refContainer.current = 'new';
 	};
 	return (
